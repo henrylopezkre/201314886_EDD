@@ -11,8 +11,8 @@ package org.pr1.structures;
  * @param <E>
  */
 public class DoublyLinkedList <E extends Object> implements SimpleList {
-    private ListNode firstNode;
-    private ListNode lastNode;
+    private ListNode firstNode = null;
+    private ListNode lastNode = null;
     @Override
     public boolean isEmpty() {
         return this.firstNode == null;
@@ -37,7 +37,11 @@ public class DoublyLinkedList <E extends Object> implements SimpleList {
     public Object getLast() {
         return this.lastNode;
     }
-
+    
+    public void add(Object object){
+        this.addLast(object);
+    }
+    
     @Override
     public void addFirst(Object object) {
         ListNode newNode = null;
