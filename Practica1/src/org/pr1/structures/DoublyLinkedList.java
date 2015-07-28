@@ -30,12 +30,12 @@ public class DoublyLinkedList <E extends Object> implements SimpleList {
 
     @Override
     public Object getFirst() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.firstNode;
     }
 
     @Override
     public Object getLast() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.lastNode;
     }
 
     @Override
