@@ -5,12 +5,7 @@
  */
 package org.pr1.structures;
 
-/**
- *
- * @author Sorge
- * @param <E>
- */
-public class DoublyLinkedList <E extends Object> implements SimpleList {
+public class DoublyLinkedList implements SimpleList {
     private ListNode firstNode = null;
     private ListNode lastNode = null;
     @Override
@@ -72,14 +67,29 @@ public class DoublyLinkedList <E extends Object> implements SimpleList {
 
     @Override
     public Object removeFirst() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Object object = null;
+        ListNode auxNode = null;
+        if(!isEmpty()){
+            object = this.firstNode.data;
+            auxNode = this.firstNode;
+            this.firstNode = auxNode.nextNode;
+            auxNode = null;
+        }
+        return object;
     }
 
     @Override
     public Object removeLast() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Object object = null;
+        ListNode auxNode = null;
+        if(!isEmpty()){
+            object = this.lastNode.data;
+            auxNode = this.lastNode;
+            this.lastNode = auxNode.prevNode;
+            auxNode = null;
+        }
+        return object;
     }
-
 }
 class ListNode{
     public Object data;
@@ -90,6 +100,5 @@ class ListNode{
         this.nextNode = null;
         this.prevNode = null;
         this.data = data;
-        //
     }
 }
