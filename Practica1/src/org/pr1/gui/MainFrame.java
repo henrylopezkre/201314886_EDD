@@ -10,6 +10,7 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
+import org.pr1.bean.Objects;
 
 /**
  *
@@ -54,7 +55,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblGroundImage = new javax.swing.JLabel();
         lblGroundTitle = new javax.swing.JLabel();
         txtGroundName = new javax.swing.JTextField();
-        btnAddGround = new javax.swing.JButton();
+        btnAddCoin = new javax.swing.JButton();
         btnAddWall = new javax.swing.JButton();
         txtWallName = new javax.swing.JTextField();
         lblWallTitle = new javax.swing.JLabel();
@@ -81,7 +82,7 @@ public class MainFrame extends javax.swing.JFrame {
         txtCoinName = new javax.swing.JTextField();
         lblCoinTitle = new javax.swing.JLabel();
         lblCoinImage = new javax.swing.JLabel();
-        btnAddCoin = new javax.swing.JButton();
+        btnAddGround = new javax.swing.JButton();
         lblMainTitle = new javax.swing.JLabel();
 
         btnAddGround1.setText("Agregar");
@@ -112,8 +113,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         txtGroundName.setFont(getCustomFont(8));
 
-        btnAddGround.setFont(getCustomFont(8));
-        btnAddGround.setText("Agregar");
+        btnAddCoin.setFont(getCustomFont(8));
+        btnAddCoin.setText("Agregar");
 
         btnAddWall.setFont(getCustomFont(8));
         btnAddWall.setText("Agregar");
@@ -200,8 +201,13 @@ public class MainFrame extends javax.swing.JFrame {
         lblCoinImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblCoinImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        btnAddCoin.setFont(getCustomFont(8));
-        btnAddCoin.setText("Agregar");
+        btnAddGround.setFont(getCustomFont(8));
+        btnAddGround.setText("Agregar");
+        btnAddGround.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddGroundActionPerformed(evt);
+            }
+        });
 
         lblMainTitle.setFont(getCustomFont(10));
         lblMainTitle.setText("Personaje principal");
@@ -222,7 +228,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(pnlContainerLayout.createSequentialGroup()
                                 .addComponent(txtGroundName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddCoin, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnAddGround, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblCoinImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8)
@@ -230,7 +236,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(pnlContainerLayout.createSequentialGroup()
                                 .addComponent(txtCoinName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddGround, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnAddCoin, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblCoinTitle)))
                     .addGroup(pnlContainerLayout.createSequentialGroup()
                         .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,13 +302,13 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtGroundName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddCoin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnAddGround, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblGroundImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlContainerLayout.createSequentialGroup()
                         .addComponent(lblCoinTitle)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAddGround, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddCoin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCoinName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblCoinImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -377,6 +383,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddGroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGroundActionPerformed
+        if(!txtGroundName.getText().isEmpty()){
+            Objects object = new Objects();
+            object.setName(txtGroundName.getText());
+        }
+    }//GEN-LAST:event_btnAddGroundActionPerformed
 
     /**
      * @param args the command line arguments

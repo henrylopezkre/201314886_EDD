@@ -88,7 +88,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="txtGroundName" min="-2" pref="250" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnAddCoin" min="-2" pref="90" max="-2" attributes="0"/>
+                                  <Component id="btnAddGround" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -98,7 +98,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="txtCoinName" min="-2" pref="250" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnAddGround" min="-2" pref="90" max="-2" attributes="0"/>
+                                  <Component id="btnAddCoin" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
                               <Component id="lblCoinTitle" max="-2" attributes="0"/>
                           </Group>
@@ -187,7 +187,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtGroundName" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="btnAddCoin" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="btnAddGround" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="lblGroundImage" min="-2" pref="50" max="-2" attributes="0"/>
@@ -195,7 +195,7 @@
                           <Component id="lblCoinTitle" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnAddGround" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="btnAddCoin" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="txtCoinName" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -324,7 +324,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnAddGround">
+        <Component class="javax.swing.JButton" name="btnAddCoin">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="getCustomFont(8)" type="code"/>
@@ -589,13 +589,16 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnAddCoin">
+        <Component class="javax.swing.JButton" name="btnAddGround">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="getCustomFont(8)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Agregar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddGroundActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblMainTitle">
           <Properties>

@@ -34,4 +34,8 @@ public class Objects {
         this.name = name;
     }
     
+    public Objects(){
+    
+    }
+    
 }
