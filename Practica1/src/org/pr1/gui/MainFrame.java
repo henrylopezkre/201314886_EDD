@@ -51,7 +51,8 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
-        dblObjects = new DoublyLinkedList();
+        this.dblObjects = new DoublyLinkedList();
+        System.out.println("Hola");
     }
     private Font getCustomFont(float size){
         Font font = null;
@@ -122,7 +123,8 @@ public class MainFrame extends javax.swing.JFrame {
         lblCoinImage = new javax.swing.JLabel();
         btnAddGround = new javax.swing.JButton();
         lblMainTitle = new javax.swing.JLabel();
-        btnAddCastle1 = new javax.swing.JButton();
+        btnView = new javax.swing.JButton();
+        btnED = new javax.swing.JButton();
 
         btnAddGround1.setText("Agregar");
 
@@ -337,17 +339,31 @@ public class MainFrame extends javax.swing.JFrame {
         lblMainTitle.setFont(getCustomFont(10));
         lblMainTitle.setText("Personaje principal");
 
-        btnAddCastle1.setFont(getCustomFont(8));
-        btnAddCastle1.setForeground(new java.awt.Color(0, 153, 204));
-        btnAddCastle1.setText("Ver");
+        btnView.setFont(getCustomFont(8));
+        btnView.setForeground(new java.awt.Color(0, 153, 204));
+        btnView.setText("Ver");
+
+        btnED.setFont(getCustomFont(8));
+        btnED.setForeground(new java.awt.Color(0, 153, 204));
+        btnED.setText("Editar/Eliminar");
+        btnED.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEDActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
         pnlContainer.setLayout(pnlContainerLayout);
         pnlContainerLayout.setHorizontalGroup(
             pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                        .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnED))
                     .addGroup(pnlContainerLayout.createSequentialGroup()
                         .addComponent(lblGroundImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -417,11 +433,6 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addComponent(btnAddCastle, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAddMushRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(lblTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAddCastle1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
         pnlContainerLayout.setVerticalGroup(
             pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,9 +510,11 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addComponent(txtCastleName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAddCastle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(lblCastleImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAddCastle1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnED, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -646,6 +659,11 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnAddCastleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCastleActionPerformed
         addObjects(txtCastleName, strCastleImage, 7);
     }//GEN-LAST:event_btnAddCastleActionPerformed
+
+    private void btnEDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEDActionPerformed
+        EDObjectsDialog dlgED = new EDObjectsDialog(this, true, this.dblObjects);
+        dlgED.setVisible(true);
+    }//GEN-LAST:event_btnEDActionPerformed
     
     private void loadImage(int option){
         Icon icon = null;
@@ -739,7 +757,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCastle;
-    private javax.swing.JButton btnAddCastle1;
     private javax.swing.JButton btnAddCoin;
     private javax.swing.JButton btnAddGoomba;
     private javax.swing.JButton btnAddGround;
@@ -748,6 +765,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnAddMain;
     private javax.swing.JButton btnAddMushRoom;
     private javax.swing.JButton btnAddWall;
+    private javax.swing.JButton btnED;
+    private javax.swing.JButton btnView;
     private javax.swing.JLabel lblCastleImage;
     private javax.swing.JLabel lblCastleTitle;
     private javax.swing.JLabel lblCoinImage;

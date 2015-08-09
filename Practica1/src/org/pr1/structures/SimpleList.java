@@ -5,6 +5,8 @@
  */
 package org.pr1.structures;
 
+import org.pr1.bean.Objects;
+
 /**
  *
  * @author Sorge
@@ -14,8 +16,8 @@ public interface SimpleList {
     public int size();
     public Object getFirst();
     public Object getLast();
-    public void addFirst(Object object);
-    public void addLast(Object object);
+    public void addFirst(Objects object);
+    public void addLast(Objects object);
     public Object removeFirst();
     public Object removeLast();
 }

@@ -6,9 +6,28 @@
 package org.pr1.gui;
 
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Frame;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.pr1.bean.Objects;
 import org.pr1.structures.DoublyLinkedList;
 
 /**
@@ -20,6 +39,7 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     /**
      * Creates new form EditObjectsDialog
      */
+    private String strObjectImage = "";
     private DoublyLinkedList dblObjects = null;
     private static EDObjectsDialog instance;
     public static EDObjectsDialog getInstance(Frame parent, boolean modal, DoublyLinkedList dblObjects){
@@ -33,11 +53,24 @@ public class EDObjectsDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.dblObjects = dblObjects;
+        tableObjects.setModel(new ObjectsTableModel(dblObjects));
     }
     
     public EDObjectsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+    
+    private Font getCustomFont(float size){
+        Font font = null;
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File(this.getClass().getResource("/org/pr1/resources/atari.ttf").getPath())).deriveFont(size);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(font);
+        } catch (IOException|FontFormatException e) {
+            //font = new Font("Segoe UI Semibold", 0, Integer.parseInt((String.valueOf(size))));
+        }
+        return font;
     }
     
 
@@ -51,132 +84,136 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         pnlContainer = new javax.swing.JPanel();
-        pnlVisor = new javax.swing.JPanel();
-        btnPrev = new javax.swing.JButton();
-        pnlPhoto1 = new javax.swing.JPanel();
-        lblPhoto1 = new javax.swing.JLabel();
-        pnlPhoto2 = new javax.swing.JPanel();
-        lblPhoto2 = new javax.swing.JLabel();
-        pnlPhoto3 = new javax.swing.JPanel();
-        lblPhoto3 = new javax.swing.JLabel();
-        pnlPhoto4 = new javax.swing.JPanel();
-        lblPhoto4 = new javax.swing.JLabel();
-        btnNext = new javax.swing.JButton();
+        lblObjectImage = new javax.swing.JLabel();
+        txtObjectName = new javax.swing.JTextField();
+        btnOK = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableObjects = new javax.swing.JTable();
+        lblTitle = new javax.swing.JLabel();
+        btnCancel = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         pnlContainer.setBackground(new java.awt.Color(255, 255, 255));
 
-        pnlVisor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        btnPrev.setText("<");
-
-        pnlPhoto1.setBackground(new java.awt.Color(255, 255, 255));
-        pnlPhoto1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        pnlPhoto1.setPreferredSize(new java.awt.Dimension(100, 100));
-        pnlPhoto1.setLayout(new java.awt.GridBagLayout());
-
-        lblPhoto1.setText("foto");
-        lblPhoto1.setPreferredSize(new java.awt.Dimension(100, 100));
-        lblPhoto1.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblObjectImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblObjectImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblObjectImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblObjectImage.setEnabled(false);
+        lblObjectImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblPhoto1MouseClicked(evt);
+                lblObjectImageMouseClicked(evt);
             }
         });
-        pnlPhoto1.add(lblPhoto1, new java.awt.GridBagConstraints());
 
-        pnlPhoto2.setBackground(new java.awt.Color(255, 255, 255));
-        pnlPhoto2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        pnlPhoto2.setPreferredSize(new java.awt.Dimension(100, 100));
-        pnlPhoto2.setLayout(new java.awt.GridBagLayout());
+        txtObjectName.setFont(getCustomFont(8));
+        txtObjectName.setForeground(new java.awt.Color(153, 153, 153));
+        txtObjectName.setEnabled(false);
 
-        lblPhoto2.setText("foto");
-        lblPhoto2.setPreferredSize(new java.awt.Dimension(100, 100));
-        lblPhoto2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblPhoto2MouseClicked(evt);
+        btnOK.setFont(getCustomFont(8));
+        btnOK.setText("Aceptar");
+        btnOK.setEnabled(false);
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
             }
         });
-        pnlPhoto2.add(lblPhoto2, new java.awt.GridBagConstraints());
 
-        pnlPhoto3.setBackground(new java.awt.Color(255, 255, 255));
-        pnlPhoto3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        pnlPhoto3.setPreferredSize(new java.awt.Dimension(100, 100));
-        pnlPhoto3.setLayout(new java.awt.GridBagLayout());
+        tableObjects.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tableObjects);
 
-        lblPhoto3.setText("foto");
-        lblPhoto3.setPreferredSize(new java.awt.Dimension(100, 100));
-        lblPhoto3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblPhoto3MouseClicked(evt);
+        lblTitle.setBackground(new java.awt.Color(0, 153, 204));
+        lblTitle.setFont(getCustomFont(30));
+        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle.setText("Editar/Eliminar objetos");
+        lblTitle.setOpaque(true);
+
+        btnCancel.setFont(getCustomFont(8));
+        btnCancel.setText("Cancelar");
+        btnCancel.setEnabled(false);
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
             }
         });
-        pnlPhoto3.add(lblPhoto3, new java.awt.GridBagConstraints());
 
-        pnlPhoto4.setBackground(new java.awt.Color(255, 255, 255));
-        pnlPhoto4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        pnlPhoto4.setPreferredSize(new java.awt.Dimension(100, 100));
-        pnlPhoto4.setLayout(new java.awt.GridBagLayout());
-
-        lblPhoto4.setText("foto");
-        lblPhoto4.setPreferredSize(new java.awt.Dimension(100, 100));
-        lblPhoto4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblPhoto4MouseClicked(evt);
+        btnDelete.setFont(getCustomFont(8));
+        btnDelete.setText("Eliminar");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
             }
         });
-        pnlPhoto4.add(lblPhoto4, new java.awt.GridBagConstraints());
 
-        btnNext.setText(">");
-
-        javax.swing.GroupLayout pnlVisorLayout = new javax.swing.GroupLayout(pnlVisor);
-        pnlVisor.setLayout(pnlVisorLayout);
-        pnlVisorLayout.setHorizontalGroup(
-            pnlVisorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlVisorLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(btnPrev, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlPhoto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlPhoto2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlPhoto3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlPhoto4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pnlVisorLayout.setVerticalGroup(
-            pnlVisorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlVisorLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlVisorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlPhoto4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlPhoto3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlPhoto2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlPhoto1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPrev, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        btnEdit.setFont(getCustomFont(8));
+        btnEdit.setText("Editar");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
         pnlContainer.setLayout(pnlContainerLayout);
         pnlContainerLayout.setHorizontalGroup(
             pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlVisor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtObjectName)
+                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                        .addComponent(lblObjectImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
+                        .addGap(0, 4, Short.MAX_VALUE)
+                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
+                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
+                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         pnlContainerLayout.setVerticalGroup(
             pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlVisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(165, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                        .addComponent(lblObjectImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtObjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -193,42 +230,87 @@ public class EDObjectsDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lblPhoto1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPhoto1MouseClicked
-        //FOTO_GRANDE.setIcon(Mi_Galeria.getFoto(a,FOTO_GRANDE.getSize()));
-    }//GEN-LAST:event_lblPhoto1MouseClicked
+    private void lblObjectImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblObjectImageMouseClicked
+        JFileChooser fcSearch = new JFileChooser("../Documents/");
+        FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
+        fcSearch.setFileFilter(ffFilter);
+        try{
+            if(JFileChooser.APPROVE_OPTION == fcSearch.showDialog(this, "Aceptar")){
+                ImageIcon img = new ImageIcon(ImageIO.read(fcSearch.getSelectedFile()));
+                strObjectImage = fcSearch.getSelectedFile().getAbsolutePath();
+                Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
+                lblObjectImage.setIcon(icon);
+            }
+        }catch(IOException ex){
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_lblObjectImageMouseClicked
 
-    private void lblPhoto2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPhoto2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblPhoto2MouseClicked
-
-    private void lblPhoto3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPhoto3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblPhoto3MouseClicked
-
-    private void lblPhoto4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPhoto4MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblPhoto4MouseClicked
-
-    public Icon getObjectImage(int num, Dimension d){
-        if( num >= 0 && num < dblObjects.size() )
-        {
-            if(dblObjects.get(num).getIconWidth()>d.getWidth()){
-                float v = getValor(dblObjects.get(num).getIconWidth(),d.width);
-                return Disminuir(dblObjects.get(num),v);
-            }else if(dblObjects.get(num).getIconHeight()>d.getHeight()){
-                float v = getValor(dblObjects.get(num).getIconHeight(),d.height);               
-                return Disminuir(dblObjects.get(num),v);
-            }else{
-                return dblObjects.get(num);
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+        if(!txtObjectName.getText().isEmpty()){
+            if(!strObjectImage.isEmpty()){
+                Path path = Paths.get(strObjectImage);
+                Objects object = new Objects();
+                object.setName(txtObjectName.getText());
+                object.setImage(path.getFileName().toString());
+                File newFile = new File("src/org/pr1/resources/".concat(path.getFileName().toString()));
+                try {
+                    copyImage(strObjectImage, newFile.getAbsolutePath());
+                } catch (IOException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                dblObjects.add(object);  
+                lblObjectImage.setIcon(new ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png")));
+                txtObjectName.setText("");
+                strObjectImage = "";
+                enabledToEdit(0);
             }
         }
-        else
-        {
-            //Image mini = nofoto.getImage().getScaledInstance(400, 400, Image.SCALE_AREA_AVERAGING);
-            //return new ImageIcon(mini);
+    }//GEN-LAST:event_btnOKActionPerformed
+
+    public void copyImage(String source, String dest) throws FileNotFoundException, IOException {
+        Path FROM = Paths.get(source);
+        Path TO = Paths.get(dest);
+        CopyOption[] options = new CopyOption[]{
+          StandardCopyOption.REPLACE_EXISTING,
+          StandardCopyOption.COPY_ATTRIBUTES
+        }; 
+        Files.copy(FROM, TO, options);
+    }
+    
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        enabledToEdit(0);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        enabledToEdit(1);
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void enabledToEdit(int option){
+        switch(option){
+            case 0:
+                lblObjectImage.setEnabled(false);
+                txtObjectName.setEnabled(false);
+                btnCancel.setEnabled(false);
+                btnOK.setEnabled(false);
+                btnEdit.setEnabled(true);
+                btnDelete.setEnabled(true);
+                break;
+            case 1:
+                lblObjectImage.setEnabled(true);
+                txtObjectName.setEnabled(true);
+                btnCancel.setEnabled(true);
+                btnOK.setEnabled(true);
+                btnEdit.setEnabled(false);
+                btnDelete.setEnabled(false);
+                break;
         }
     }
     
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        
+    }//GEN-LAST:event_btnDeleteActionPerformed
+   
     /**
      * @param args the command line arguments
      */
@@ -273,17 +355,15 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnNext;
-    private javax.swing.JButton btnPrev;
-    private javax.swing.JLabel lblPhoto1;
-    private javax.swing.JLabel lblPhoto2;
-    private javax.swing.JLabel lblPhoto3;
-    private javax.swing.JLabel lblPhoto4;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnOK;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblObjectImage;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlContainer;
-    private javax.swing.JPanel pnlPhoto1;
-    private javax.swing.JPanel pnlPhoto2;
-    private javax.swing.JPanel pnlPhoto3;
-    private javax.swing.JPanel pnlPhoto4;
-    private javax.swing.JPanel pnlVisor;
+    private javax.swing.JTable tableObjects;
+    private javax.swing.JTextField txtObjectName;
     // End of variables declaration//GEN-END:variables
 }

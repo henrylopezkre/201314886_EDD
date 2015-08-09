@@ -5,6 +5,8 @@
  */
 package org.pr1.structures;
 
+import org.pr1.bean.Objects;
+
 public class DoublyLinkedList implements SimpleList {
     private ListNode firstNode = null;
     private ListNode lastNode = null;
@@ -33,9 +35,9 @@ public class DoublyLinkedList implements SimpleList {
         return this.lastNode;
     }
     
-    public Object get(int index){
+    public Objects get(int index){
         int cont = 0;
-        Object object = null;
+        Objects object = null;
         ListNode elementNode = null;
         if(index >= 0 && index < size()){
             elementNode = firstNode;
@@ -48,12 +50,12 @@ public class DoublyLinkedList implements SimpleList {
         return object;
     }
     
-    public void add(Object object){
+    public void add(Objects object){
         this.addLast(object);
     }   
     
     @Override
-    public void addFirst(Object object) {
+    public void addFirst(Objects object) {
         ListNode newNode = null;
         if(isEmpty()){
             newNode = new ListNode(object);
@@ -67,7 +69,7 @@ public class DoublyLinkedList implements SimpleList {
     }
 
     @Override
-    public void addLast(Object object) {
+    public void addLast(Objects object) {
         ListNode newNode = null;
         if(isEmpty()){
             newNode = new ListNode(object);
@@ -107,11 +109,11 @@ public class DoublyLinkedList implements SimpleList {
     }
 }
 class ListNode{
-    public Object data;
+    public Objects data;
     public ListNode nextNode;
     public ListNode prevNode;
     public ListNode(){}
-    public ListNode(Object data){
+    public ListNode(Objects data){
         this.nextNode = null;
         this.prevNode = null;
         this.data = data;
