@@ -8,8 +8,14 @@ package org.pr1.gui;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.pr1.bean.Objects;
 
 /**
@@ -84,6 +90,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblCoinImage = new javax.swing.JLabel();
         btnAddGround = new javax.swing.JButton();
         lblMainTitle = new javax.swing.JLabel();
+        btnAddCastle1 = new javax.swing.JButton();
 
         btnAddGround1.setText("Agregar");
 
@@ -99,19 +106,28 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlContainer.setBackground(new java.awt.Color(255, 255, 255));
 
+        lblTitle.setBackground(new java.awt.Color(0, 153, 204));
         lblTitle.setFont(getCustomFont(30));
+        lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Agregar objetos");
+        lblTitle.setOpaque(true);
 
         lblGroundImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblGroundImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
         lblGroundImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblGroundImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblGroundImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblGroundImageMouseClicked(evt);
+            }
+        });
 
         lblGroundTitle.setFont(getCustomFont(10));
         lblGroundTitle.setText("Suelo");
 
         txtGroundName.setFont(getCustomFont(8));
+        txtGroundName.setForeground(new java.awt.Color(153, 153, 153));
 
         btnAddCoin.setFont(getCustomFont(8));
         btnAddCoin.setText("Agregar");
@@ -120,6 +136,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnAddWall.setText("Agregar");
 
         txtWallName.setFont(getCustomFont(8));
+        txtWallName.setForeground(new java.awt.Color(153, 153, 153));
 
         lblWallTitle.setFont(getCustomFont(10));
         lblWallTitle.setText("Pared");
@@ -138,6 +155,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblGoombaTitle.setText("Goomba");
 
         txtGoombaName.setFont(getCustomFont(8));
+        txtGoombaName.setForeground(new java.awt.Color(153, 153, 153));
 
         btnAddGoomba.setFont(getCustomFont(8));
         btnAddGoomba.setText("Agregar");
@@ -148,6 +166,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblKoopaImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         txtKoopaName.setFont(getCustomFont(8));
+        txtKoopaName.setForeground(new java.awt.Color(153, 153, 153));
 
         lblKoopaTitle.setFont(getCustomFont(10));
         lblKoopaTitle.setText("Koopa");
@@ -159,6 +178,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnAddCastle.setText("Agregar");
 
         txtCastleName.setFont(getCustomFont(8));
+        txtCastleName.setForeground(new java.awt.Color(153, 153, 153));
 
         lblCastleImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCastleImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
@@ -169,6 +189,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblCastleTitle.setText("Castillo");
 
         txtMainName.setFont(getCustomFont(8));
+        txtMainName.setForeground(new java.awt.Color(153, 153, 153));
 
         lblMainImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMainImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
@@ -182,6 +203,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnAddMushRoom.setText("Agregar");
 
         txtMushRoomName.setFont(getCustomFont(8));
+        txtMushRoomName.setForeground(new java.awt.Color(153, 153, 153));
 
         lbMushRoomImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbMushRoomImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
@@ -192,6 +214,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblMushRoomTitle.setText("Hongo");
 
         txtCoinName.setFont(getCustomFont(8));
+        txtCoinName.setForeground(new java.awt.Color(153, 153, 153));
 
         lblCoinTitle.setFont(getCustomFont(10));
         lblCoinTitle.setText("Ficha");
@@ -212,6 +235,10 @@ public class MainFrame extends javax.swing.JFrame {
         lblMainTitle.setFont(getCustomFont(10));
         lblMainTitle.setText("Personaje principal");
 
+        btnAddCastle1.setFont(getCustomFont(8));
+        btnAddCastle1.setForeground(new java.awt.Color(0, 153, 204));
+        btnAddCastle1.setText("Ver");
+
         javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
         pnlContainer.setLayout(pnlContainerLayout);
         pnlContainerLayout.setHorizontalGroup(
@@ -219,7 +246,6 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlContainerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlContainerLayout.createSequentialGroup()
                         .addComponent(lblGroundImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -288,13 +314,17 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addComponent(btnAddMain, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAddCastle, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAddMushRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lblTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAddCastle1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         pnlContainerLayout.setVerticalGroup(
             pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlContainerLayout.createSequentialGroup()
@@ -367,6 +397,8 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addComponent(txtCastleName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAddCastle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(lblCastleImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAddCastle1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -390,6 +422,22 @@ public class MainFrame extends javax.swing.JFrame {
             object.setName(txtGroundName.getText());
         }
     }//GEN-LAST:event_btnAddGroundActionPerformed
+
+    private void lblGroundImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGroundImageMouseClicked
+        JFileChooser fcSearch = new JFileChooser("../Documents/");
+        FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen", "jpg", "jpeg", "png");
+        fcSearch.setFileFilter(ffFilter);
+        try{
+            if(JFileChooser.APPROVE_OPTION == fcSearch.showDialog(this, "Aceptar")){
+                String strPath = fcSearch.getSelectedFile().getAbsolutePath();
+                ImageIcon img = new ImageIcon(this.getClass().getResource(strPath));
+                Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblGroundImage.getWidth(), lblGroundImage.getHeight(), Image.SCALE_DEFAULT));
+                lblGroundImage.setIcon(icon);
+            }
+        }catch(Exception e){
+            
+        }
+    }//GEN-LAST:event_lblGroundImageMouseClicked
 
     /**
      * @param args the command line arguments
@@ -428,6 +476,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCastle;
+    private javax.swing.JButton btnAddCastle1;
     private javax.swing.JButton btnAddCoin;
     private javax.swing.JButton btnAddGoomba;
     private javax.swing.JButton btnAddGround;
