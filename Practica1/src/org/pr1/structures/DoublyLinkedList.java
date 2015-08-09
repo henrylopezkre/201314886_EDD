@@ -33,9 +33,24 @@ public class DoublyLinkedList implements SimpleList {
         return this.lastNode;
     }
     
+    public Object get(int index){
+        int cont = 0;
+        Object object = null;
+        ListNode elementNode = null;
+        if(index >= 0 && index < size()){
+            elementNode = firstNode;
+            while(cont < index){
+                elementNode = elementNode.nextNode;
+                object = elementNode.data;
+                cont++;
+            }
+        }
+        return object;
+    }
+    
     public void add(Object object){
         this.addLast(object);
-    }
+    }   
     
     @Override
     public void addFirst(Object object) {

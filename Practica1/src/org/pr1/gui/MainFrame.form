@@ -146,7 +146,7 @@
                               <Component id="lblCastleImage" min="-2" pref="50" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                   <Component id="lblMainImage" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="lbMushRoomImage" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="lblMushRoomImage" min="-2" pref="50" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -254,7 +254,7 @@
                                       <Component id="btnAddMushRoom" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="lbMushRoomImage" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="lblMushRoomImage" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -350,6 +350,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Agregar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddCoinActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAddWall">
           <Properties>
@@ -358,6 +361,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Agregar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddWallActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtWallName">
           <Properties>
@@ -392,6 +398,9 @@
               <Color id="Cursor de Mano"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblWallImageMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblGoombaImage">
           <Properties>
@@ -408,6 +417,9 @@
               <Color id="Cursor de Mano"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblGoombaImageMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblGoombaTitle">
           <Properties>
@@ -434,6 +446,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Agregar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddGoombaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblKoopaImage">
           <Properties>
@@ -450,6 +465,9 @@
               <Color id="Cursor de Mano"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblKoopaImageMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtKoopaName">
           <Properties>
@@ -476,6 +494,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Agregar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddKoopaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAddCastle">
           <Properties>
@@ -484,6 +505,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Agregar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddCastleActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCastleName">
           <Properties>
@@ -510,6 +534,9 @@
               <Color id="Cursor de Mano"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblCastleImageMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblCastleTitle">
           <Properties>
@@ -544,6 +571,9 @@
               <Color id="Cursor de Mano"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblMainImageMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAddMain">
           <Properties>
@@ -552,6 +582,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Agregar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddMainActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAddMushRoom">
           <Properties>
@@ -560,6 +593,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Agregar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddMushRoomActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtMushRoomName">
           <Properties>
@@ -571,7 +607,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lbMushRoomImage">
+        <Component class="javax.swing.JLabel" name="lblMushRoomImage">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -586,6 +622,9 @@
               <Color id="Cursor de Mano"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblMushRoomImageMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblMushRoomTitle">
           <Properties>
@@ -628,6 +667,9 @@
               <Color id="Cursor de Mano"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblCoinImageMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAddGround">
           <Properties>

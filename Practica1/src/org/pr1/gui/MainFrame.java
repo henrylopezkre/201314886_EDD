@@ -29,9 +29,12 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.pr1.bean.Objects;
+import org.pr1.structures.DoublyLinkedList;
 
 /**
  *
@@ -42,11 +45,13 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+    private DoublyLinkedList dblObjects;
     private String strGroundImage, strWallImage, strGoombaImage, 
             strKoopaImage, strCoinImage, strMushRoomImage, strMainImage, strCastleImage;
     public MainFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
+        dblObjects = new DoublyLinkedList();
     }
     private Font getCustomFont(float size){
         Font font = null;
@@ -110,7 +115,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnAddMain = new javax.swing.JButton();
         btnAddMushRoom = new javax.swing.JButton();
         txtMushRoomName = new javax.swing.JTextField();
-        lbMushRoomImage = new javax.swing.JLabel();
+        lblMushRoomImage = new javax.swing.JLabel();
         lblMushRoomTitle = new javax.swing.JLabel();
         txtCoinName = new javax.swing.JTextField();
         lblCoinTitle = new javax.swing.JLabel();
@@ -158,9 +163,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnAddCoin.setFont(getCustomFont(8));
         btnAddCoin.setText("Agregar");
+        btnAddCoin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCoinActionPerformed(evt);
+            }
+        });
 
         btnAddWall.setFont(getCustomFont(8));
         btnAddWall.setText("Agregar");
+        btnAddWall.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddWallActionPerformed(evt);
+            }
+        });
 
         txtWallName.setFont(getCustomFont(8));
         txtWallName.setForeground(new java.awt.Color(153, 153, 153));
@@ -172,11 +187,21 @@ public class MainFrame extends javax.swing.JFrame {
         lblWallImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
         lblWallImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblWallImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblWallImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblWallImageMouseClicked(evt);
+            }
+        });
 
         lblGoombaImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblGoombaImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
         lblGoombaImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblGoombaImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblGoombaImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblGoombaImageMouseClicked(evt);
+            }
+        });
 
         lblGoombaTitle.setFont(getCustomFont(10));
         lblGoombaTitle.setText("Goomba");
@@ -186,11 +211,21 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnAddGoomba.setFont(getCustomFont(8));
         btnAddGoomba.setText("Agregar");
+        btnAddGoomba.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddGoombaActionPerformed(evt);
+            }
+        });
 
         lblKoopaImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblKoopaImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
         lblKoopaImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblKoopaImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblKoopaImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblKoopaImageMouseClicked(evt);
+            }
+        });
 
         txtKoopaName.setFont(getCustomFont(8));
         txtKoopaName.setForeground(new java.awt.Color(153, 153, 153));
@@ -200,9 +235,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnAddKoopa.setFont(getCustomFont(8));
         btnAddKoopa.setText("Agregar");
+        btnAddKoopa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddKoopaActionPerformed(evt);
+            }
+        });
 
         btnAddCastle.setFont(getCustomFont(8));
         btnAddCastle.setText("Agregar");
+        btnAddCastle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCastleActionPerformed(evt);
+            }
+        });
 
         txtCastleName.setFont(getCustomFont(8));
         txtCastleName.setForeground(new java.awt.Color(153, 153, 153));
@@ -211,6 +256,11 @@ public class MainFrame extends javax.swing.JFrame {
         lblCastleImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
         lblCastleImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblCastleImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblCastleImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCastleImageMouseClicked(evt);
+            }
+        });
 
         lblCastleTitle.setFont(getCustomFont(10));
         lblCastleTitle.setText("Castillo");
@@ -222,20 +272,40 @@ public class MainFrame extends javax.swing.JFrame {
         lblMainImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
         lblMainImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblMainImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblMainImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblMainImageMouseClicked(evt);
+            }
+        });
 
         btnAddMain.setFont(getCustomFont(8));
         btnAddMain.setText("Agregar");
+        btnAddMain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMainActionPerformed(evt);
+            }
+        });
 
         btnAddMushRoom.setFont(getCustomFont(8));
         btnAddMushRoom.setText("Agregar");
+        btnAddMushRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddMushRoomActionPerformed(evt);
+            }
+        });
 
         txtMushRoomName.setFont(getCustomFont(8));
         txtMushRoomName.setForeground(new java.awt.Color(153, 153, 153));
 
-        lbMushRoomImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbMushRoomImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
-        lbMushRoomImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        lbMushRoomImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblMushRoomImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblMushRoomImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblMushRoomImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        lblMushRoomImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblMushRoomImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblMushRoomImageMouseClicked(evt);
+            }
+        });
 
         lblMushRoomTitle.setFont(getCustomFont(10));
         lblMushRoomTitle.setText("Hongo");
@@ -250,6 +320,11 @@ public class MainFrame extends javax.swing.JFrame {
         lblCoinImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
         lblCoinImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblCoinImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblCoinImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCoinImageMouseClicked(evt);
+            }
+        });
 
         btnAddGround.setFont(getCustomFont(8));
         btnAddGround.setText("Agregar");
@@ -325,7 +400,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(lblCastleImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(lblMainImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbMushRoomImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(lblMushRoomImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblCastleTitle)
@@ -405,7 +480,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtMushRoomName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAddMushRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(lbMushRoomImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblMushRoomImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlContainerLayout.createSequentialGroup()
@@ -444,39 +519,189 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddGroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGroundActionPerformed
-        if(!txtGroundName.getText().isEmpty()){
-            if(!strGroundImage.isEmpty()){
-                Path path = Paths.get(strGroundImage);
+        addObjects(txtGroundName, strGroundImage, 0);
+    }//GEN-LAST:event_btnAddGroundActionPerformed
+    
+    private void addObjects(JTextField txtFieldName, String strObjectImage, int option){
+        if(!txtFieldName.getText().isEmpty()){
+            if(!strObjectImage.isEmpty()){
+                Path path = Paths.get(strObjectImage);
                 Objects object = new Objects();
-                object.setName(txtGroundName.getText());
+                object.setName(txtFieldName.getText());
                 object.setImage(path.getFileName().toString());
                 File newFile = new File("src/org/pr1/resources/".concat(path.getFileName().toString()));
                 try {
-                    copyImage(strGroundImage, newFile.getAbsolutePath());
+                    copyImage(strObjectImage, newFile.getAbsolutePath());
                 } catch (IOException ex) {
                     Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                dblObjects.add(object);  
+                reset(option);
             }
         }
-    }//GEN-LAST:event_btnAddGroundActionPerformed
-
+    }
+    
+    private void reset(int option){
+        Icon icon = new ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"));
+        switch(option){
+            case 0:
+                lblGroundImage.setIcon(icon);
+                txtGroundName.setText("");
+                strGroundImage = "";
+                break;
+            case 1:
+                lblWallImage.setIcon(icon);
+                txtWallName.setText("");
+                strWallImage = "";
+                break;
+            case 2:
+                lblGoombaImage.setIcon(icon);
+                txtGoombaName.setText("");
+                strGoombaImage = "";
+                break;
+            case 3:
+                lblKoopaImage.setIcon(icon);
+                txtKoopaName.setText("");
+                strKoopaImage = "";
+                break;
+            case 4:
+                lblCoinImage.setIcon(icon);
+                txtCoinName.setText("");
+                strCoinImage = "";
+                break;
+            case 5:
+                lblMushRoomImage.setIcon(icon);
+                txtMushRoomName.setText("");
+                strMushRoomImage = "";
+                break;
+            case 6:
+                lblMainImage.setIcon(icon);
+                txtMainName.setText("");
+                strMainImage = "";
+                break;
+            case 7:
+                lblCastleImage.setIcon(icon);
+                txtCastleName.setText("");
+                strCastleImage = "";
+                break;
+        }
+    }
+    
     private void lblGroundImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGroundImageMouseClicked
+        loadImage(0);
+    }//GEN-LAST:event_lblGroundImageMouseClicked
+
+    private void lblWallImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblWallImageMouseClicked
+        loadImage(1);
+    }//GEN-LAST:event_lblWallImageMouseClicked
+
+    private void lblGoombaImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGoombaImageMouseClicked
+        loadImage(2);
+    }//GEN-LAST:event_lblGoombaImageMouseClicked
+
+    private void lblKoopaImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblKoopaImageMouseClicked
+        loadImage(3);
+    }//GEN-LAST:event_lblKoopaImageMouseClicked
+
+    private void lblCoinImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCoinImageMouseClicked
+        loadImage(4);
+    }//GEN-LAST:event_lblCoinImageMouseClicked
+
+    private void lblMushRoomImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMushRoomImageMouseClicked
+        loadImage(5);
+    }//GEN-LAST:event_lblMushRoomImageMouseClicked
+
+    private void lblMainImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMainImageMouseClicked
+        loadImage(6);
+    }//GEN-LAST:event_lblMainImageMouseClicked
+
+    private void lblCastleImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCastleImageMouseClicked
+        loadImage(7);
+    }//GEN-LAST:event_lblCastleImageMouseClicked
+
+    private void btnAddWallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddWallActionPerformed
+        addObjects(txtWallName, strWallImage, 1);
+    }//GEN-LAST:event_btnAddWallActionPerformed
+
+    private void btnAddGoombaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGoombaActionPerformed
+        addObjects(txtGoombaName, strGoombaImage, 2);
+    }//GEN-LAST:event_btnAddGoombaActionPerformed
+
+    private void btnAddKoopaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddKoopaActionPerformed
+        addObjects(txtKoopaName, strKoopaImage, 3);
+    }//GEN-LAST:event_btnAddKoopaActionPerformed
+
+    private void btnAddCoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCoinActionPerformed
+        addObjects(txtCoinName, strCoinImage, 4);
+    }//GEN-LAST:event_btnAddCoinActionPerformed
+
+    private void btnAddMushRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMushRoomActionPerformed
+        addObjects(txtMushRoomName, strMushRoomImage, 5);
+    }//GEN-LAST:event_btnAddMushRoomActionPerformed
+
+    private void btnAddMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMainActionPerformed
+        addObjects(txtMainName, strMainImage, 6);
+    }//GEN-LAST:event_btnAddMainActionPerformed
+
+    private void btnAddCastleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCastleActionPerformed
+        addObjects(txtCastleName, strCastleImage, 7);
+    }//GEN-LAST:event_btnAddCastleActionPerformed
+    
+    private void loadImage(int option){
+        Icon icon = null;
         JFileChooser fcSearch = new JFileChooser("../Documents/");
-        FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen", "jpg", "jpeg", "png");
+        FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
         fcSearch.setFileFilter(ffFilter);
         try{
             if(JFileChooser.APPROVE_OPTION == fcSearch.showDialog(this, "Aceptar")){
-                strGroundImage = fcSearch.getSelectedFile().getAbsolutePath();
-                System.out.println(strGroundImage);
                 ImageIcon img = new ImageIcon(ImageIO.read(fcSearch.getSelectedFile()));
-                Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblGroundImage.getWidth(), lblGroundImage.getHeight(), Image.SCALE_DEFAULT));
-                lblGroundImage.setIcon(icon);
+                switch(option){
+                    case 0:
+                        strGroundImage = fcSearch.getSelectedFile().getAbsolutePath();
+                        icon = new ImageIcon(img.getImage().getScaledInstance(lblGroundImage.getWidth(), lblGroundImage.getHeight(), Image.SCALE_DEFAULT));
+                        lblGroundImage.setIcon(icon);
+                        break;
+                    case 1:
+                        strWallImage = fcSearch.getSelectedFile().getAbsolutePath();
+                        icon = new ImageIcon(img.getImage().getScaledInstance(lblWallImage.getWidth(), lblWallImage.getHeight(), Image.SCALE_DEFAULT));
+                        lblWallImage.setIcon(icon);
+                        break;
+                    case 2:
+                        strGoombaImage = fcSearch.getSelectedFile().getAbsolutePath();
+                        icon = new ImageIcon(img.getImage().getScaledInstance(lblGoombaImage.getWidth(), lblGoombaImage.getHeight(), Image.SCALE_DEFAULT));
+                        lblGoombaImage.setIcon(icon);
+                        break;
+                    case 3:
+                        strKoopaImage = fcSearch.getSelectedFile().getAbsolutePath();
+                        icon = new ImageIcon(img.getImage().getScaledInstance(lblKoopaImage.getWidth(), lblKoopaImage.getHeight(), Image.SCALE_DEFAULT));
+                        lblKoopaImage.setIcon(icon);
+                        break;
+                    case 4:
+                        strCoinImage = fcSearch.getSelectedFile().getAbsolutePath();
+                        icon = new ImageIcon(img.getImage().getScaledInstance(lblCoinImage.getWidth(), lblCoinImage.getHeight(), Image.SCALE_DEFAULT));
+                        lblCoinImage.setIcon(icon);
+                        break;
+                    case 5:
+                        strMushRoomImage = fcSearch.getSelectedFile().getAbsolutePath();
+                        icon = new ImageIcon(img.getImage().getScaledInstance(lblMushRoomImage.getWidth(), lblMushRoomImage.getHeight(), Image.SCALE_DEFAULT));
+                        lblMushRoomImage.setIcon(icon);
+                        break;
+                    case 6:
+                        strMainImage = fcSearch.getSelectedFile().getAbsolutePath();
+                        icon = new ImageIcon(img.getImage().getScaledInstance(lblMainImage.getWidth(), lblMainImage.getHeight(), Image.SCALE_DEFAULT));
+                        lblMainImage.setIcon(icon);
+                        break;
+                    case 7:
+                        strCastleImage = fcSearch.getSelectedFile().getAbsolutePath();
+                        icon = new ImageIcon(img.getImage().getScaledInstance(lblCastleImage.getWidth(), lblCastleImage.getHeight(), Image.SCALE_DEFAULT));
+                        lblCastleImage.setIcon(icon);
+                        break;
+                }
             }
-        }catch(IOException e){
-            e.printStackTrace();
+        }catch(IOException ex){
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_lblGroundImageMouseClicked
-
+    }
     /**
      * @param args the command line arguments
      */
@@ -523,7 +748,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnAddMain;
     private javax.swing.JButton btnAddMushRoom;
     private javax.swing.JButton btnAddWall;
-    private javax.swing.JLabel lbMushRoomImage;
     private javax.swing.JLabel lblCastleImage;
     private javax.swing.JLabel lblCastleTitle;
     private javax.swing.JLabel lblCoinImage;
@@ -538,6 +762,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblKoopaTitle;
     private javax.swing.JLabel lblMainImage;
     private javax.swing.JLabel lblMainTitle;
+    private javax.swing.JLabel lblMushRoomImage;
     private javax.swing.JLabel lblMushRoomTitle;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblWallImage;
