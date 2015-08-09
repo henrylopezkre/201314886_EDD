@@ -9,8 +9,23 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -27,6 +42,8 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+    private String strGroundImage, strWallImage, strGoombaImage, 
+            strKoopaImage, strCoinImage, strMushRoomImage, strMainImage, strCastleImage;
     public MainFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -41,6 +58,16 @@ public class MainFrame extends javax.swing.JFrame {
             //font = new Font("Segoe UI Semibold", 0, Integer.parseInt((String.valueOf(size))));
         }
         return font;
+    }
+    
+    public void copyImage(String source, String dest) throws FileNotFoundException, IOException {
+        Path FROM = Paths.get(source);
+        Path TO = Paths.get(dest);
+        CopyOption[] options = new CopyOption[]{
+          StandardCopyOption.REPLACE_EXISTING,
+          StandardCopyOption.COPY_ATTRIBUTES
+        }; 
+        Files.copy(FROM, TO, options);
     }
 
     /**
@@ -418,8 +445,18 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnAddGroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddGroundActionPerformed
         if(!txtGroundName.getText().isEmpty()){
-            Objects object = new Objects();
-            object.setName(txtGroundName.getText());
+            if(!strGroundImage.isEmpty()){
+                Path path = Paths.get(strGroundImage);
+                Objects object = new Objects();
+                object.setName(txtGroundName.getText());
+                object.setImage(path.getFileName().toString());
+                File newFile = new File("src/org/pr1/resources/".concat(path.getFileName().toString()));
+                try {
+                    copyImage(strGroundImage, newFile.getAbsolutePath());
+                } catch (IOException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }//GEN-LAST:event_btnAddGroundActionPerformed
 
@@ -429,13 +466,14 @@ public class MainFrame extends javax.swing.JFrame {
         fcSearch.setFileFilter(ffFilter);
         try{
             if(JFileChooser.APPROVE_OPTION == fcSearch.showDialog(this, "Aceptar")){
-                String strPath = fcSearch.getSelectedFile().getAbsolutePath();
-                ImageIcon img = new ImageIcon(this.getClass().getResource(strPath));
+                strGroundImage = fcSearch.getSelectedFile().getAbsolutePath();
+                System.out.println(strGroundImage);
+                ImageIcon img = new ImageIcon(ImageIO.read(fcSearch.getSelectedFile()));
                 Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblGroundImage.getWidth(), lblGroundImage.getHeight(), Image.SCALE_DEFAULT));
                 lblGroundImage.setIcon(icon);
             }
-        }catch(Exception e){
-            
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }//GEN-LAST:event_lblGroundImageMouseClicked
 
