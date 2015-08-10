@@ -1,0 +1,13 @@
+digraph G {
+	rankdir = LR;\n
+	node[shape=record]; 
+
+	subgraph clusterDBLO {
+
+label = "Lista de objetos";
+
+tn_dblsw0[label = "{ <e> | Nombre. Hola1 
+ Imagen: pared.gif 
+ Tipo: PARED| <p> }", style="filled", color="black", fillcolor="skyblue"]; 
+	}
+ }

@@ -16,7 +16,7 @@ public class OrthogonalMatrix {
     public OrthogonalMatrix(){
         this.headNode = new MatrixNode();
     }
-    private void addRow(int lenght){
+    public void addRow(int lenght){
         MatrixNode auxNode = this.headNode;
         int row = 0, count = 0;
         while(auxNode.upNode != null){
@@ -33,8 +33,8 @@ public class OrthogonalMatrix {
             }
         }else if(row > 0){
             MatrixNode newRowNode = new MatrixNode();
-            auxNode.upNode = newRowNode;
-            newRowNode.downNode = auxNode;
+            auxNode.downNode = newRowNode;
+            newRowNode.upNode = auxNode;
             auxNode = auxNode.rightNode;
             while(count < lenght){
                 //Crear nodo
@@ -42,8 +42,8 @@ public class OrthogonalMatrix {
                 //Asignar punteros
                 newRowNode.rightNode = newNode;
                 newNode.leftNode = newRowNode;
-                auxNode.upNode = newRowNode;
-                newRowNode.downNode = auxNode;
+                auxNode.downNode = newRowNode;
+                newRowNode.upNode = auxNode;
                 //Avanzar al siguiente nodo
                 auxNode = auxNode.rightNode;
                 newRowNode = newRowNode.rightNode;
@@ -51,7 +51,7 @@ public class OrthogonalMatrix {
             }
         }
     }
-    private void addColumn(int lenght){
+    public void addColumn(int lenght){
         MatrixNode auxNode = this.headNode;
         int column = 0;
         while(auxNode.rightNode != null){

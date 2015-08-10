@@ -5,6 +5,7 @@
  */
 package org.pr1.gui;
 
+import com.sun.glass.ui.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -25,11 +26,11 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.pr1.bean.Objects;
 import org.pr1.structures.DoublyLinkedList;
-
 /**
  *
  * @author Sorge
@@ -40,25 +41,30 @@ public class EDObjectsDialog extends javax.swing.JDialog {
      * Creates new form EditObjectsDialog
      */
     private String strObjectImage = "";
-    private DoublyLinkedList dblObjects = null;
+    private DoublyLinkedList dblObjects = new DoublyLinkedList();
     private static EDObjectsDialog instance;
-    public static EDObjectsDialog getInstance(Frame parent, boolean modal, DoublyLinkedList dblObjects){
+    public static EDObjectsDialog getInstance(Frame parent, boolean modal){
         if(instance == null){
-            instance = new EDObjectsDialog(parent, modal, dblObjects);
+            instance = new EDObjectsDialog(parent, modal);
         }
         return instance;
     }
     
-    public EDObjectsDialog(java.awt.Frame parent, boolean modal, DoublyLinkedList dblObjects) {
-        super(parent, modal);
-        initComponents();
-        this.dblObjects = dblObjects;
-        tableObjects.setModel(new ObjectsTableModel(dblObjects));
-    }
-    
     public EDObjectsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
+        initComponents();      
+        this.setLocationRelativeTo(parent);
+    }
+    
+    public void setListObjects(DoublyLinkedList dblObjects){
+        this.dblObjects = dblObjects;
+        tableObjects.setModel(new ObjectsTableModel(this.dblObjects));
+        tableObjects.revalidate();
+        tableObjects.repaint();      
+    }
+    
+    public DoublyLinkedList getListObjects(){
+        return this.dblObjects;
     }
     
     private Font getCustomFont(float size){
@@ -82,9 +88,9 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlContainer = new javax.swing.JPanel();
-        lblObjectImage = new javax.swing.JLabel();
         txtObjectName = new javax.swing.JTextField();
         btnOK = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -93,27 +99,19 @@ public class EDObjectsDialog extends javax.swing.JDialog {
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
+        pnlObjectImage = new javax.swing.JPanel();
+        lblObjectImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Editar/Eliminar objetos");
 
         pnlContainer.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblObjectImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblObjectImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
-        lblObjectImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblObjectImage.setEnabled(false);
-        lblObjectImage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblObjectImageMouseClicked(evt);
-            }
-        });
-
         txtObjectName.setFont(getCustomFont(8));
         txtObjectName.setForeground(new java.awt.Color(153, 153, 153));
-        txtObjectName.setEnabled(false);
+        txtObjectName.setFocusable(false);
 
-        btnOK.setFont(getCustomFont(8));
+        btnOK.setFont(getCustomFont(7));
         btnOK.setText("Aceptar");
         btnOK.setEnabled(false);
         btnOK.addActionListener(new java.awt.event.ActionListener() {
@@ -133,16 +131,21 @@ public class EDObjectsDialog extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableObjects.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableObjectsMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableObjects);
 
         lblTitle.setBackground(new java.awt.Color(0, 153, 204));
-        lblTitle.setFont(getCustomFont(30));
+        lblTitle.setFont(getCustomFont(22));
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Editar/Eliminar objetos");
         lblTitle.setOpaque(true);
 
-        btnCancel.setFont(getCustomFont(8));
+        btnCancel.setFont(getCustomFont(7));
         btnCancel.setText("Cancelar");
         btnCancel.setEnabled(false);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -151,7 +154,7 @@ public class EDObjectsDialog extends javax.swing.JDialog {
             }
         });
 
-        btnDelete.setFont(getCustomFont(8));
+        btnDelete.setFont(getCustomFont(7));
         btnDelete.setText("Eliminar");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,13 +162,37 @@ public class EDObjectsDialog extends javax.swing.JDialog {
             }
         });
 
-        btnEdit.setFont(getCustomFont(8));
+        btnEdit.setFont(getCustomFont(7));
         btnEdit.setText("Editar");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
             }
         });
+
+        pnlObjectImage.setBackground(new java.awt.Color(255, 255, 255));
+        pnlObjectImage.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlObjectImage.setPreferredSize(new java.awt.Dimension(75, 75));
+        pnlObjectImage.setLayout(new java.awt.GridBagLayout());
+
+        lblObjectImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblObjectImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblObjectImage.setToolTipText("Click para agregar imagen");
+        lblObjectImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lblObjectImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblObjectImageMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = -2;
+        gridBagConstraints.ipady = -2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(13, 14, 12, 11);
+        pnlObjectImage.add(lblObjectImage, gridBagConstraints);
 
         javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
         pnlContainer.setLayout(pnlContainerLayout);
@@ -175,14 +202,10 @@ public class EDObjectsDialog extends javax.swing.JDialog {
             .addGroup(pnlContainerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtObjectName)
                     .addGroup(pnlContainerLayout.createSequentialGroup()
-                        .addComponent(lblObjectImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
-                        .addGap(0, 4, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
                                 .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -191,7 +214,11 @@ public class EDObjectsDialog extends javax.swing.JDialog {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
                                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
+                                .addComponent(pnlObjectImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(59, 59, 59))))
+                    .addComponent(txtObjectName, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         pnlContainerLayout.setVerticalGroup(
@@ -202,8 +229,8 @@ public class EDObjectsDialog extends javax.swing.JDialog {
                 .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlContainerLayout.createSequentialGroup()
-                        .addComponent(lblObjectImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlObjectImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtObjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -231,18 +258,20 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblObjectImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblObjectImageMouseClicked
-        JFileChooser fcSearch = new JFileChooser("../Documents/");
-        FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
-        fcSearch.setFileFilter(ffFilter);
-        try{
-            if(JFileChooser.APPROVE_OPTION == fcSearch.showDialog(this, "Aceptar")){
-                ImageIcon img = new ImageIcon(ImageIO.read(fcSearch.getSelectedFile()));
-                strObjectImage = fcSearch.getSelectedFile().getAbsolutePath();
-                Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
-                lblObjectImage.setIcon(icon);
+        if(!btnEdit.isEnabled()){
+            JFileChooser fcSearch = new JFileChooser("../Documents/");
+            FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
+            fcSearch.setFileFilter(ffFilter);
+            try{
+                if(JFileChooser.APPROVE_OPTION == fcSearch.showDialog(this, "Aceptar")){
+                    ImageIcon img = new ImageIcon(ImageIO.read(fcSearch.getSelectedFile()));
+                    strObjectImage = fcSearch.getSelectedFile().getAbsolutePath();
+                    Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
+                    lblObjectImage.setIcon(icon);
+                }
+            }catch(IOException ex){
+                Logger.getLogger(AddObjectsFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }catch(IOException ex){
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lblObjectImageMouseClicked
 
@@ -257,13 +286,16 @@ public class EDObjectsDialog extends javax.swing.JDialog {
                 try {
                     copyImage(strObjectImage, newFile.getAbsolutePath());
                 } catch (IOException ex) {
-                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AddObjectsFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dblObjects.add(object);  
+                dblObjects.set(tableObjects.getSelectedRow(), object);  
                 lblObjectImage.setIcon(new ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png")));
                 txtObjectName.setText("");
                 strObjectImage = "";
                 enabledToEdit(0);
+                tableObjects.setModel(new ObjectsTableModel(this.dblObjects));
+                tableObjects.revalidate();
+                tableObjects.repaint();
             }
         }
     }//GEN-LAST:event_btnOKActionPerformed
@@ -289,27 +321,56 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     private void enabledToEdit(int option){
         switch(option){
             case 0:
-                lblObjectImage.setEnabled(false);
-                txtObjectName.setEnabled(false);
+                txtObjectName.setFocusable(false);
                 btnCancel.setEnabled(false);
                 btnOK.setEnabled(false);
                 btnEdit.setEnabled(true);
                 btnDelete.setEnabled(true);
+                lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                tableObjects.setEnabled(true);
                 break;
             case 1:
-                lblObjectImage.setEnabled(true);
-                txtObjectName.setEnabled(true);
+                txtObjectName.setFocusable(true);
                 btnCancel.setEnabled(true);
                 btnOK.setEnabled(true);
                 btnEdit.setEnabled(false);
                 btnDelete.setEnabled(false);
+                lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                tableObjects.setEnabled(false);
                 break;
         }
     }
     
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        
+        if(tableObjects.getSelectedRows().length > 0){
+            for(int i = 0; i < tableObjects.getSelectedRows().length; i++){
+                Objects object = this.dblObjects.get(tableObjects.getSelectedRows()[i]);
+                this.dblObjects.remove(object);
+            }
+            JOptionPane.showMessageDialog(null, "Objetos eliminados.");
+            if(dblObjects.size() > 0){
+                tableObjects.setModel(new ObjectsTableModel(this.dblObjects));
+                tableObjects.revalidate();
+                tableObjects.repaint();
+            }else{
+                JOptionPane.showMessageDialog(null, "No existen objetos.");
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tableObjectsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObjectsMousePressed
+        if(tableObjects.getSelectedRows().length > 0){
+            Objects object = this.dblObjects.get(tableObjects.getSelectedRow());
+            ImageIcon img = new ImageIcon(getClass().getResource("/org/pr1/resources/".concat(object.getImage())));
+            Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
+            lblObjectImage.setIcon(icon);
+            txtObjectName.setText(object.getName());
+            lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            File newFile = new File("src/org/pr1/resources/".concat(object.getImage()));
+            strObjectImage = newFile.getAbsolutePath();
+        }
+    }//GEN-LAST:event_tableObjectsMousePressed
    
     /**
      * @param args the command line arguments
@@ -363,6 +424,7 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblObjectImage;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlContainer;
+    private javax.swing.JPanel pnlObjectImage;
     private javax.swing.JTable tableObjects;
     private javax.swing.JTextField txtObjectName;
     // End of variables declaration//GEN-END:variables

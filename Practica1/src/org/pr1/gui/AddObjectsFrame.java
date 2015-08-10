@@ -30,6 +30,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -40,7 +41,7 @@ import org.pr1.structures.DoublyLinkedList;
  *
  * @author Sorge
  */
-public class MainFrame extends javax.swing.JFrame {
+public class AddObjectsFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form MainFrame
@@ -48,7 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
     private DoublyLinkedList dblObjects;
     private String strGroundImage, strWallImage, strGoombaImage, 
             strKoopaImage, strCoinImage, strMushRoomImage, strMainImage, strCastleImage;
-    public MainFrame() {
+    public AddObjectsFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.dblObjects = new DoublyLinkedList();
@@ -125,6 +126,7 @@ public class MainFrame extends javax.swing.JFrame {
         lblMainTitle = new javax.swing.JLabel();
         btnView = new javax.swing.JButton();
         btnED = new javax.swing.JButton();
+        btnCreateStage = new javax.swing.JButton();
 
         btnAddGround1.setText("Agregar");
 
@@ -137,11 +139,13 @@ public class MainFrame extends javax.swing.JFrame {
         lblGroundImage1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Agregar objetos");
+        setResizable(false);
 
         pnlContainer.setBackground(new java.awt.Color(255, 255, 255));
 
         lblTitle.setBackground(new java.awt.Color(0, 153, 204));
-        lblTitle.setFont(getCustomFont(30));
+        lblTitle.setFont(getCustomFont(22));
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Agregar objetos");
@@ -149,6 +153,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblGroundImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblGroundImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblGroundImage.setToolTipText("Click para agregar imagen");
         lblGroundImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblGroundImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblGroundImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -187,6 +192,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblWallImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblWallImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblWallImage.setToolTipText("Click para agregar imagen");
         lblWallImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblWallImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblWallImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -197,6 +203,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblGoombaImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblGoombaImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblGoombaImage.setToolTipText("Click para agregar imagen");
         lblGoombaImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblGoombaImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblGoombaImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -221,6 +228,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblKoopaImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblKoopaImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblKoopaImage.setToolTipText("Click para agregar imagen");
         lblKoopaImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblKoopaImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblKoopaImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -256,6 +264,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblCastleImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCastleImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblCastleImage.setToolTipText("Click para agregar imagen");
         lblCastleImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblCastleImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblCastleImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -272,6 +281,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblMainImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMainImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblMainImage.setToolTipText("Click para agregar imagen");
         lblMainImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblMainImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblMainImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -301,6 +311,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblMushRoomImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMushRoomImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblMushRoomImage.setToolTipText("Click para agregar imagen");
         lblMushRoomImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblMushRoomImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblMushRoomImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -320,6 +331,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblCoinImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCoinImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png"))); // NOI18N
+        lblCoinImage.setToolTipText("Click para agregar imagen");
         lblCoinImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblCoinImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblCoinImage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -342,6 +354,11 @@ public class MainFrame extends javax.swing.JFrame {
         btnView.setFont(getCustomFont(8));
         btnView.setForeground(new java.awt.Color(0, 153, 204));
         btnView.setText("Ver");
+        btnView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewActionPerformed(evt);
+            }
+        });
 
         btnED.setFont(getCustomFont(8));
         btnED.setForeground(new java.awt.Color(0, 153, 204));
@@ -352,6 +369,15 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnCreateStage.setFont(getCustomFont(8));
+        btnCreateStage.setForeground(new java.awt.Color(0, 153, 204));
+        btnCreateStage.setText("Crear escenario");
+        btnCreateStage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateStageActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
         pnlContainer.setLayout(pnlContainerLayout);
         pnlContainerLayout.setHorizontalGroup(
@@ -359,80 +385,85 @@ public class MainFrame extends javax.swing.JFrame {
             .addComponent(lblTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnlContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlContainerLayout.createSequentialGroup()
+                                .addComponent(lblGroundImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblGroundTitle)
+                                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                                        .addComponent(txtGroundName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnAddGround, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblCoinImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                                        .addComponent(txtCoinName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnAddCoin, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblCoinTitle)))
+                            .addGroup(pnlContainerLayout.createSequentialGroup()
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                                        .addComponent(lblWallImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblWallTitle)
+                                            .addGroup(pnlContainerLayout.createSequentialGroup()
+                                                .addComponent(txtWallName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnAddWall, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                                        .addComponent(lblGoombaImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblGoombaTitle)
+                                            .addGroup(pnlContainerLayout.createSequentialGroup()
+                                                .addComponent(txtGoombaName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnAddGoomba, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                                        .addComponent(lblKoopaImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblKoopaTitle)
+                                            .addGroup(pnlContainerLayout.createSequentialGroup()
+                                                .addComponent(txtKoopaName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnAddKoopa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblCastleImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lblMainImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblMushRoomImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblCastleTitle)
+                                    .addComponent(lblMainTitle)
+                                    .addComponent(lblMushRoomTitle)
+                                    .addGroup(pnlContainerLayout.createSequentialGroup()
+                                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtCastleName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtMushRoomName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtMainName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnAddMain, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnAddCastle, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnAddMushRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnlContainerLayout.createSequentialGroup()
                         .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnED))
-                    .addGroup(pnlContainerLayout.createSequentialGroup()
-                        .addComponent(lblGroundImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnED)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblGroundTitle)
-                            .addGroup(pnlContainerLayout.createSequentialGroup()
-                                .addComponent(txtGroundName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddGround, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblCoinImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)
-                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlContainerLayout.createSequentialGroup()
-                                .addComponent(txtCoinName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddCoin, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblCoinTitle)))
-                    .addGroup(pnlContainerLayout.createSequentialGroup()
-                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlContainerLayout.createSequentialGroup()
-                                .addComponent(lblWallImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblWallTitle)
-                                    .addGroup(pnlContainerLayout.createSequentialGroup()
-                                        .addComponent(txtWallName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnAddWall, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(pnlContainerLayout.createSequentialGroup()
-                                .addComponent(lblGoombaImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblGoombaTitle)
-                                    .addGroup(pnlContainerLayout.createSequentialGroup()
-                                        .addComponent(txtGoombaName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnAddGoomba, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(pnlContainerLayout.createSequentialGroup()
-                                .addComponent(lblKoopaImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblKoopaTitle)
-                                    .addGroup(pnlContainerLayout.createSequentialGroup()
-                                        .addComponent(txtKoopaName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnAddKoopa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCastleImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(lblMainImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblMushRoomImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCastleTitle)
-                            .addComponent(lblMainTitle)
-                            .addComponent(lblMushRoomTitle)
-                            .addGroup(pnlContainerLayout.createSequentialGroup()
-                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCastleName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMushRoomName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMainName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAddMain, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAddCastle, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAddMushRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnCreateStage)
+                        .addGap(11, 11, 11))))
         );
         pnlContainerLayout.setVerticalGroup(
             pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,9 +542,10 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addComponent(btnAddCastle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(lblCastleImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnView, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnED, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnED, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCreateStage, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -542,13 +574,39 @@ public class MainFrame extends javax.swing.JFrame {
                 Objects object = new Objects();
                 object.setName(txtFieldName.getText());
                 object.setImage(path.getFileName().toString());
+                switch(option){
+                    case 0:
+                        object.setType(Objects.TYPE.SUELO);
+                        break;
+                    case 1:
+                        object.setType(Objects.TYPE.PARED);
+                        break;
+                    case 2:
+                        object.setType(Objects.TYPE.GOOMBA);
+                        break;
+                    case 3:
+                        object.setType(Objects.TYPE.KOOPA);
+                        break;
+                    case 4:
+                        object.setType(Objects.TYPE.FICHA);
+                        break;
+                    case 5:
+                        object.setType(Objects.TYPE.HONGO);
+                        break;
+                    case 6:
+                        object.setType(Objects.TYPE.PRINCIPAL);
+                        break;
+                    case 7:
+                        object.setType(Objects.TYPE.CASTILLO);
+                        break;
+                }
                 File newFile = new File("src/org/pr1/resources/".concat(path.getFileName().toString()));
                 try {
                     copyImage(strObjectImage, newFile.getAbsolutePath());
                 } catch (IOException ex) {
-                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AddObjectsFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dblObjects.add(object);  
+                this.dblObjects.add(object);  
                 reset(option);
             }
         }
@@ -591,6 +649,10 @@ public class MainFrame extends javax.swing.JFrame {
                 lblMainImage.setIcon(icon);
                 txtMainName.setText("");
                 strMainImage = "";
+                lblMainImage.setEnabled(false);
+                txtMainName.setEnabled(false);
+                btnAddMain.setEnabled(false);
+                lblMainTitle.setEnabled(false);
                 break;
             case 7:
                 lblCastleImage.setIcon(icon);
@@ -625,7 +687,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_lblMushRoomImageMouseClicked
 
     private void lblMainImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMainImageMouseClicked
-        loadImage(6);
+        if(lblMainImage.isEnabled()){
+            loadImage(6);
+        }
     }//GEN-LAST:event_lblMainImageMouseClicked
 
     private void lblCastleImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCastleImageMouseClicked
@@ -661,14 +725,38 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddCastleActionPerformed
 
     private void btnEDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEDActionPerformed
-        EDObjectsDialog dlgED = new EDObjectsDialog(this, true, this.dblObjects);
-        dlgED.setVisible(true);
+        if(this.dblObjects.size() > 0){
+            EDObjectsDialog dlgED = new EDObjectsDialog(this, true);
+            dlgED.setListObjects(this.dblObjects);
+            dlgED.setVisible(true);
+            this.dblObjects = dlgED.getListObjects();
+        }else{
+            JOptionPane.showMessageDialog(null, "No existen objetos.");
+        }
     }//GEN-LAST:event_btnEDActionPerformed
+
+    private void btnCreateStageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateStageActionPerformed
+        if(this.dblObjects.size() > 0){
+            StageDialog dlgStage = new StageDialog(this, true, this.dblObjects);
+            dlgStage.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "No existen objetos.");
+        }
+        
+    }//GEN-LAST:event_btnCreateStageActionPerformed
+
+    private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
+        if(this.dblObjects.size() > 0){
+            this.dblObjects.printGraphviz();
+        }else{
+            JOptionPane.showMessageDialog(null, "No existen objetos.");
+        }
+    }//GEN-LAST:event_btnViewActionPerformed
     
     private void loadImage(int option){
         Icon icon = null;
         JFileChooser fcSearch = new JFileChooser("../Documents/");
-        FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
+        FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen (*.jpg, *.jpeg, *.png, *.gif)", "jpg", "jpeg", "png", "gif");
         fcSearch.setFileFilter(ffFilter);
         try{
             if(JFileChooser.APPROVE_OPTION == fcSearch.showDialog(this, "Aceptar")){
@@ -717,7 +805,7 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         }catch(IOException ex){
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddObjectsFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**
@@ -737,20 +825,21 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddObjectsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddObjectsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddObjectsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddObjectsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                new AddObjectsFrame().setVisible(true);
             }
         });
     }
@@ -765,6 +854,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnAddMain;
     private javax.swing.JButton btnAddMushRoom;
     private javax.swing.JButton btnAddWall;
+    private javax.swing.JButton btnCreateStage;
     private javax.swing.JButton btnED;
     private javax.swing.JButton btnView;
     private javax.swing.JLabel lblCastleImage;

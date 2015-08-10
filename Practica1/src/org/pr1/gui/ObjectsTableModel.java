@@ -14,9 +14,9 @@ import org.pr1.structures.DoublyLinkedList;
  * @author Sorge
  */
 public class ObjectsTableModel extends AbstractTableModel {
-    private DoublyLinkedList dblObjects;
+    private DoublyLinkedList dblObjects = new DoublyLinkedList();
     private final String[] columnNames = 
-            new String[]{"No. ", "Nombre", "Imagen"};
+            new String[]{"No. ", "Nombre", "Imagen", "Tipo"};
     public ObjectsTableModel(DoublyLinkedList dblObjects){
         this.dblObjects = dblObjects;
         this.fireTableDataChanged();
@@ -46,6 +46,9 @@ public class ObjectsTableModel extends AbstractTableModel {
                 break;
             case 2:
                 value = object.getImage();
+                break;
+            case 3:
+                value = object.getType().toString();
                 break;
         }
         return value;
