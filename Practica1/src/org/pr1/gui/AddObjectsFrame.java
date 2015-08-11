@@ -7,6 +7,7 @@ package org.pr1.gui;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -46,19 +47,32 @@ public class AddObjectsFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    private DoublyLinkedList dblObjects;
+    public DoublyLinkedList dblObjects = new DoublyLinkedList();
     private String strGroundImage, strWallImage, strGoombaImage, 
             strKoopaImage, strCoinImage, strMushRoomImage, strMainImage, strCastleImage;
+    
+    private static AddObjectsFrame instance;
+    public static AddObjectsFrame getInstance(){
+        if(instance == null){
+            instance = new AddObjectsFrame();
+        }
+        return instance;
+    }
+    
+    public DoublyLinkedList getListObjects(){
+        return this.dblObjects;
+    }
+    
     public AddObjectsFrame() {
+        createFont();
         initComponents();
         this.setLocationRelativeTo(null);
         this.dblObjects = new DoublyLinkedList();
-        System.out.println("Hola");
     }
     private Font getCustomFont(float size){
         Font font = null;
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File(this.getClass().getResource("/org/pr1/resources/atari.ttf").getPath())).deriveFont(size);
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("temp/atari.ttf")).deriveFont(size);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(font);
         } catch (IOException|FontFormatException e) {
@@ -67,6 +81,31 @@ public class AddObjectsFrame extends javax.swing.JFrame {
         return font;
     }
     
+    private void createFont(){
+        try {        
+            File directorio = new File("temp"); //Creas un nuevo directorio a nivel de tu jar.
+            directorio.mkdirs();
+            directorio.setWritable(true);
+            //copias la direccion
+            String archivo = directorio.getCanonicalPath() + File.separator + "atari.TTF";
+            //nuevo archivo en esa direccion
+            File temp = new File(archivo);
+            InputStream is = this.getClass().getResourceAsStream("/org/pr1/resources/atari.TTF");
+            FileOutputStream archivoDestino = new FileOutputStream(temp);
+            FileWriter fw = new FileWriter(temp);
+            byte[] buffer = new byte[512*1024];
+            //lees el archivo hasta que se acabe...
+            int nbLectura;
+            while ((nbLectura = is.read(buffer)) != -1)
+                archivoDestino.write(buffer, 0, nbLectura);
+            fw.close();
+            archivoDestino.close();
+            is.close();
+        } catch (IOException ex) {
+            Logger.getLogger(AddObjectsFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+       
     public void copyImage(String source, String dest) throws FileNotFoundException, IOException {
         Path FROM = Paths.get(source);
         Path TO = Paths.get(dest);
@@ -600,7 +639,7 @@ public class AddObjectsFrame extends javax.swing.JFrame {
                         object.setType(Objects.TYPE.CASTILLO);
                         break;
                 }
-                File newFile = new File("src/org/pr1/resources/".concat(path.getFileName().toString()));
+                File newFile = new File("temp/".concat(path.getFileName().toString()));
                 try {
                     copyImage(strObjectImage, newFile.getAbsolutePath());
                 } catch (IOException ex) {
@@ -608,7 +647,11 @@ public class AddObjectsFrame extends javax.swing.JFrame {
                 }
                 this.dblObjects.add(object);  
                 reset(option);
+            }else{
+                JOptionPane.showMessageDialog(null, "No ha seleccionado una imagen.");
             }
+        }else{
+            JOptionPane.showMessageDialog(null, "Debe de ingresar un nombre.");
         }
     }
     
@@ -726,8 +769,7 @@ public class AddObjectsFrame extends javax.swing.JFrame {
 
     private void btnEDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEDActionPerformed
         if(this.dblObjects.size() > 0){
-            EDObjectsDialog dlgED = new EDObjectsDialog(this, true);
-            dlgED.setListObjects(this.dblObjects);
+            EDObjectsDialog dlgED = new EDObjectsDialog(this, true, this.dblObjects);
             dlgED.setVisible(true);
             this.dblObjects = dlgED.getListObjects();
         }else{
@@ -748,6 +790,7 @@ public class AddObjectsFrame extends javax.swing.JFrame {
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
         if(this.dblObjects.size() > 0){
             this.dblObjects.printGraphviz();
+            JOptionPane.showMessageDialog(null, "Se ha creado la imagen.");
         }else{
             JOptionPane.showMessageDialog(null, "No existen objetos.");
         }
@@ -839,7 +882,7 @@ public class AddObjectsFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddObjectsFrame().setVisible(true);
+                AddObjectsFrame.getInstance().setVisible(true);
             }
         });
     }

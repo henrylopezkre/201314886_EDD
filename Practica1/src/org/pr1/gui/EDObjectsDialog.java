@@ -40,6 +40,7 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     /**
      * Creates new form EditObjectsDialog
      */
+    private Objects object = new Objects();
     private String strObjectImage = "";
     private DoublyLinkedList dblObjects = new DoublyLinkedList();
     private static EDObjectsDialog instance;
@@ -50,17 +51,18 @@ public class EDObjectsDialog extends javax.swing.JDialog {
         return instance;
     }
     
+    public EDObjectsDialog(java.awt.Frame parent, boolean modal, DoublyLinkedList dblObjects) {
+        super(parent, modal);
+        initComponents();      
+        this.setLocationRelativeTo(parent);
+        this.dblObjects = dblObjects;
+        tableObjects.setModel(new ObjectsTableModel(this.dblObjects));
+    }
+    
     public EDObjectsDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();      
         this.setLocationRelativeTo(parent);
-    }
-    
-    public void setListObjects(DoublyLinkedList dblObjects){
-        this.dblObjects = dblObjects;
-        tableObjects.setModel(new ObjectsTableModel(this.dblObjects));
-        tableObjects.revalidate();
-        tableObjects.repaint();      
     }
     
     public DoublyLinkedList getListObjects(){
@@ -70,7 +72,7 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     private Font getCustomFont(float size){
         Font font = null;
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File(this.getClass().getResource("/org/pr1/resources/atari.ttf").getPath())).deriveFont(size);
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("temp/atari.ttf")).deriveFont(size);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(font);
         } catch (IOException|FontFormatException e) {
@@ -120,6 +122,7 @@ public class EDObjectsDialog extends javax.swing.JDialog {
             }
         });
 
+        tableObjects.setFont(getCustomFont(7));
         tableObjects.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -131,6 +134,7 @@ public class EDObjectsDialog extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableObjects.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tableObjects.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tableObjectsMousePressed(evt);
@@ -260,7 +264,7 @@ public class EDObjectsDialog extends javax.swing.JDialog {
     private void lblObjectImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblObjectImageMouseClicked
         if(!btnEdit.isEnabled()){
             JFileChooser fcSearch = new JFileChooser("../Documents/");
-            FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen (*.jpg, *.jpeg, *.png)", "jpg", "jpeg", "png");
+            FileFilter ffFilter = new FileNameExtensionFilter("Archivos de imagen (*.jpg, *.jpeg, *.png, *.gif)", "jpg", "jpeg", "png", "gif");
             fcSearch.setFileFilter(ffFilter);
             try{
                 if(JFileChooser.APPROVE_OPTION == fcSearch.showDialog(this, "Aceptar")){
@@ -279,23 +283,21 @@ public class EDObjectsDialog extends javax.swing.JDialog {
         if(!txtObjectName.getText().isEmpty()){
             if(!strObjectImage.isEmpty()){
                 Path path = Paths.get(strObjectImage);
-                Objects object = new Objects();
                 object.setName(txtObjectName.getText());
                 object.setImage(path.getFileName().toString());
-                File newFile = new File("src/org/pr1/resources/".concat(path.getFileName().toString()));
+                File newFile = new File("temp/".concat(path.getFileName().toString()));
                 try {
                     copyImage(strObjectImage, newFile.getAbsolutePath());
                 } catch (IOException ex) {
                     Logger.getLogger(AddObjectsFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dblObjects.set(tableObjects.getSelectedRow(), object);  
                 lblObjectImage.setIcon(new ImageIcon(getClass().getResource("/org/pr1/resources/no_image.png")));
-                txtObjectName.setText("");
                 strObjectImage = "";
                 enabledToEdit(0);
-                tableObjects.setModel(new ObjectsTableModel(this.dblObjects));
+                this.dblObjects.set(tableObjects.getSelectedRow(), this.object);  
                 tableObjects.revalidate();
                 tableObjects.repaint();
+                tableObjects.clearSelection();
             }
         }
     }//GEN-LAST:event_btnOKActionPerformed
@@ -327,7 +329,6 @@ public class EDObjectsDialog extends javax.swing.JDialog {
                 btnEdit.setEnabled(true);
                 btnDelete.setEnabled(true);
                 lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                tableObjects.setEnabled(true);
                 break;
             case 1:
                 txtObjectName.setFocusable(true);
@@ -336,20 +337,15 @@ public class EDObjectsDialog extends javax.swing.JDialog {
                 btnEdit.setEnabled(false);
                 btnDelete.setEnabled(false);
                 lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-                tableObjects.setEnabled(false);
                 break;
         }
     }
     
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         if(tableObjects.getSelectedRows().length > 0){
-            for(int i = 0; i < tableObjects.getSelectedRows().length; i++){
-                Objects object = this.dblObjects.get(tableObjects.getSelectedRows()[i]);
-                this.dblObjects.remove(object);
-            }
-            JOptionPane.showMessageDialog(null, "Objetos eliminados.");
-            if(dblObjects.size() > 0){
-                tableObjects.setModel(new ObjectsTableModel(this.dblObjects));
+            Objects object = this.dblObjects.get(tableObjects.getSelectedRow());
+            this.dblObjects.remove(object);
+            if(this.dblObjects.size() > 0){
                 tableObjects.revalidate();
                 tableObjects.repaint();
             }else{
@@ -361,13 +357,13 @@ public class EDObjectsDialog extends javax.swing.JDialog {
 
     private void tableObjectsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObjectsMousePressed
         if(tableObjects.getSelectedRows().length > 0){
-            Objects object = this.dblObjects.get(tableObjects.getSelectedRow());
-            ImageIcon img = new ImageIcon(getClass().getResource("/org/pr1/resources/".concat(object.getImage())));
+            this.object = this.dblObjects.get(tableObjects.getSelectedRow());
+            ImageIcon img = new ImageIcon("temp/".concat(this.object.getImage()));
             Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
             lblObjectImage.setIcon(icon);
-            txtObjectName.setText(object.getName());
+            txtObjectName.setText(this.object.getName());
             lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-            File newFile = new File("src/org/pr1/resources/".concat(object.getImage()));
+            File newFile = new File("temp/".concat(this.object.getImage()));
             strObjectImage = newFile.getAbsolutePath();
         }
     }//GEN-LAST:event_tableObjectsMousePressed

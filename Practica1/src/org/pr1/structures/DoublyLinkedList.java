@@ -121,20 +121,20 @@ public class DoublyLinkedList implements SimpleList {
         }       
         return resp;
     }
-    public boolean set(int index, Objects object){
-        boolean resp = false;
-        int cont = 0;
-        ListNode elementNode = null;
-        if(index >= 0 && index < size()){
-            elementNode = this.firstNode;
-            while(cont < index){
-                elementNode = elementNode.nextNode;
-                cont++;
+    public void set(int index, Objects object){
+        int i = 0;
+        if(index == 0){
+            ListNode auxNode = null;
+            auxNode = this.firstNode;
+            auxNode.data = object;
+        }else if(index > 0){
+            ListNode auxNode = this.firstNode;
+            while(i < index){
+                auxNode = auxNode.nextNode;
+                i++;
             }
-            elementNode.data = object;
-            resp = elementNode.data == object ? true : false;
+            auxNode.data = object;
         }
-        return resp;
     }
 
     @Override
@@ -172,17 +172,7 @@ public class DoublyLinkedList implements SimpleList {
             if(!directorio.exists()){
                 directorio.mkdirs();
             }
-            /*File file = new File(".\\Reportes\\dblObjects.txt");
-            BufferedWriter bw;
-            if(file.exists()) {
-                    bw = new BufferedWriter(new FileWriter(file));
-                    bw.write("");
-              } else {
-                    bw = new BufferedWriter(new FileWriter(file));
-                    bw.write("");
-              }
-            bw.close();*/
-            fileWriter = new FileWriter(".\\Reportes\\dblObjects.txt");
+            fileWriter = new FileWriter(".\\Reportes\\dblObjects.dot");
             printWriter = new PrintWriter(fileWriter);
                     
              printWriter.println("digraph G {");
@@ -211,10 +201,21 @@ public class DoublyLinkedList implements SimpleList {
                 printWriter.print("\t}\n");
                 printWriter.print(" }");
                 printWriter.close();
-                String cmd = "cmd /c C:\\Archivos de programa\\Graphviz 2.28\\bin\\dot.exe -Tjpg .\\Reportes\\dblObjects.txt -o .\\Reportes\\dblObjects.jpg";
-                Process p = Runtime.getRuntime().exec(cmd);
-             //File archivo = new File("HTML/estadisticas.html");
-             //Desktop.getDesktop().open(archivo);
+                String dotPath = "C:\\Program Files (x86)\\Graphviz2.30\\bin\\dot.exe";
+                String fileInputPath = ".\\Reportes\\dblObjects.dot";
+                String fileOutputPath = ".\\Reportes\\dblObjects.jpg";
+                String tParam = "-Tjpg";
+                String tOParam = "-o";
+                
+                String[] cmd = new String[5];
+                cmd[0] = dotPath;
+                cmd[1] = tParam;
+                cmd[2] = fileInputPath;
+                cmd[3] = tOParam;
+                cmd[4] = fileOutputPath;
+                
+                Runtime rt = Runtime.getRuntime();
+                rt.exec(cmd);
         } catch (IOException ex) {
             Logger.getLogger(DoublyLinkedList.class.getName()).log(Level.SEVERE, null, ex);
         }

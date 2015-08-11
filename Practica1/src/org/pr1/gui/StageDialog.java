@@ -5,7 +5,6 @@
  */
 package org.pr1.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -13,12 +12,11 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import org.pr1.bean.Objects;
@@ -35,6 +33,7 @@ public class StageDialog extends javax.swing.JDialog {
      * Creates new form ScreenDialog
      */
     private DoublyLinkedList dblObjects = new DoublyLinkedList();
+    private int option = 0;
     private int size = 0;
     private int rows = 2;
     private int cols = 4;
@@ -50,10 +49,13 @@ public class StageDialog extends javax.swing.JDialog {
         }
         pnlStage.setLayout(new GridBagLayout());
         createRowsAndCols(rows, cols);
-        ImageIcon img = new ImageIcon(getClass().getResource("/org/pr1/resources/".concat(dblObjects.getLast().getImage())));
+        ImageIcon img = new ImageIcon("temp/".concat(dblObjects.getLast().getImage()));
         Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
         lblObjectImage.setIcon(icon);
         btnPrev.setEnabled(false);
+        if(this.dblObjects.size() == 1){
+            btnNext.setEnabled(false);
+        }
     }
 
     public StageDialog(java.awt.Frame parent, boolean modal) {
@@ -64,7 +66,7 @@ public class StageDialog extends javax.swing.JDialog {
     private Font getCustomFont(float size){
         Font font = null;
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File(this.getClass().getResource("/org/pr1/resources/atari.ttf").getPath())).deriveFont(size);
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("temp/atari.ttf")).deriveFont(size);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(font);
         } catch (IOException|FontFormatException e) {
@@ -130,8 +132,11 @@ public class StageDialog extends javax.swing.JDialog {
         pnlStage = new javax.swing.JPanel();
         lblOption = new javax.swing.JLabel();
         cbxOption = new javax.swing.JComboBox();
+        btnDeleteRow = new javax.swing.JButton();
+        btnDeleteCol = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Crear escenario");
 
         pnlContainer.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -159,6 +164,11 @@ public class StageDialog extends javax.swing.JDialog {
         lblObjectImage.setToolTipText("");
         lblObjectImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         lblObjectImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lblObjectImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lblObjectImageMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlVisorLayout = new javax.swing.GroupLayout(pnlVisor);
         pnlVisor.setLayout(pnlVisorLayout);
@@ -173,7 +183,7 @@ public class StageDialog extends javax.swing.JDialog {
             .addGroup(pnlVisorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlVisorLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(lblObjectImage)
+                    .addComponent(lblObjectImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         pnlVisorLayout.setVerticalGroup(
@@ -187,7 +197,7 @@ public class StageDialog extends javax.swing.JDialog {
             .addGroup(pnlVisorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlVisorLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(lblObjectImage)
+                    .addComponent(lblObjectImage, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -222,6 +232,27 @@ public class StageDialog extends javax.swing.JDialog {
 
         cbxOption.setFont(getCustomFont(9));
         cbxOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pila", "Cola" }));
+        cbxOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxOptionActionPerformed(evt);
+            }
+        });
+
+        btnDeleteRow.setFont(getCustomFont(7));
+        btnDeleteRow.setText("Borrar");
+        btnDeleteRow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteRowActionPerformed(evt);
+            }
+        });
+
+        btnDeleteCol.setFont(getCustomFont(7));
+        btnDeleteCol.setText("Borrar");
+        btnDeleteCol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteColActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlContainerLayout = new javax.swing.GroupLayout(pnlContainer);
         pnlContainer.setLayout(pnlContainerLayout);
@@ -235,40 +266,51 @@ public class StageDialog extends javax.swing.JDialog {
                         .addComponent(pnlVisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOption)
+                            .addComponent(lblCol)
+                            .addComponent(lblRow))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbxOption, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnlContainerLayout.createSequentialGroup()
-                                .addComponent(lblOption)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbxOption, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlContainerLayout.createSequentialGroup()
-                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCol)
-                                    .addComponent(lblRow))
-                                .addGap(13, 13, 13)
-                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAddCol, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAddRow, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 594, Short.MAX_VALUE)))
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnAddRow, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                                    .addComponent(btnAddCol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnDeleteRow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnDeleteCol, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 507, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlContainerLayout.setVerticalGroup(
             pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlContainerLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlVisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlContainerLayout.createSequentialGroup()
-                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblOption)
-                            .addComponent(cbxOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAddRow)
-                            .addComponent(lblRow))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAddCol)
-                            .addComponent(lblCol))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 12, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(pnlVisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContainerLayout.createSequentialGroup()
+                        .addContainerGap(12, Short.MAX_VALUE)
+                        .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlContainerLayout.createSequentialGroup()
+                                .addComponent(btnDeleteRow)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDeleteCol))
+                            .addGroup(pnlContainerLayout.createSequentialGroup()
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cbxOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblOption))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnAddRow)
+                                    .addComponent(lblRow))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnAddCol)
+                                    .addComponent(lblCol))))
+                        .addGap(18, 18, 18)))
                 .addComponent(scrollStage, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -290,11 +332,13 @@ public class StageDialog extends javax.swing.JDialog {
     private void btnAddColActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddColActionPerformed
         cols++;
         createRowsAndCols(rows, cols);
+        //this.omStage.addColumn(rows);
     }//GEN-LAST:event_btnAddColActionPerformed
 
     private void btnAddRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRowActionPerformed
         rows++;
         createRowsAndCols(rows, cols);
+        //this.omStage.addRow(cols);
     }//GEN-LAST:event_btnAddRowActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
@@ -302,7 +346,7 @@ public class StageDialog extends javax.swing.JDialog {
             size--;
             if(size >= 0 && size < this.dblObjects.size()){
                 Objects object = this.dblObjects.get(size);
-                ImageIcon img = new ImageIcon(getClass().getResource("/org/pr1/resources/".concat(object.getImage())));
+                ImageIcon img = new ImageIcon("temp/".concat(object.getImage()));
                 Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
                 lblObjectImage.setIcon(icon);
                 if(size == 0){
@@ -311,7 +355,17 @@ public class StageDialog extends javax.swing.JDialog {
                 }
             }
         }else{
-        
+            size++;
+            if(size >= 0 && size < this.dblObjects.size()){
+                Objects object = this.dblObjects.get(size);
+                ImageIcon img = new ImageIcon("temp/".concat(object.getImage()));
+                Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
+                lblObjectImage.setIcon(icon);
+                if(size == (this.dblObjects.size()-1)){
+                    btnNext.setEnabled(false);
+                    btnPrev.setEnabled(true);
+                }
+            }
         }
     }//GEN-LAST:event_btnNextActionPerformed
 
@@ -321,7 +375,7 @@ public class StageDialog extends javax.swing.JDialog {
             if(size >= 0 && size < this.dblObjects.size()){
                 btnNext.setEnabled(true);
                 Objects object = this.dblObjects.get(size);
-                ImageIcon img = new ImageIcon(getClass().getResource("/org/pr1/resources/".concat(object.getImage())));
+                ImageIcon img = new ImageIcon("temp/".concat(object.getImage()));
                 Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
                 lblObjectImage.setIcon(icon);
                 if(size == (this.dblObjects.size()-1)){
@@ -329,10 +383,56 @@ public class StageDialog extends javax.swing.JDialog {
                     btnPrev.setEnabled(false);
                 }
             }
-        }else{
-        
+        }else if(cbxOption.getSelectedIndex() == 1){
+            size--;
+            if(size >= 0 && size < this.dblObjects.size()){
+                btnNext.setEnabled(true);
+                Objects object = this.dblObjects.get(size);
+                ImageIcon img = new ImageIcon("temp/".concat(object.getImage()));
+                Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
+                lblObjectImage.setIcon(icon);
+                if(size == 0){
+                    btnNext.setEnabled(true);
+                    btnPrev.setEnabled(false);
+                }
+            }
         }
     }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void cbxOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxOptionActionPerformed
+        ImageIcon img = null;
+        if(cbxOption.getSelectedIndex() == 0){
+            this.size = this.dblObjects.size() - 1;
+            img = new ImageIcon("temp/".concat(dblObjects.getLast().getImage()));
+        }else if(cbxOption.getSelectedIndex() == 1){
+            this.size = 0;
+            img = new ImageIcon("temp/".concat(dblObjects.getFirst().getImage()));
+        }
+        Icon icon = new ImageIcon(img.getImage().getScaledInstance(lblObjectImage.getWidth(), lblObjectImage.getHeight(), Image.SCALE_DEFAULT));
+        lblObjectImage.setIcon(icon);
+        if(this.dblObjects.size() > 1){
+            btnNext.setEnabled(true);
+        }else{
+            btnNext.setEnabled(true);
+        }
+        btnPrev.setEnabled(false);
+    }//GEN-LAST:event_cbxOptionActionPerformed
+
+    private void lblObjectImageMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblObjectImageMousePressed
+        Icon icon = lblObjectImage.getIcon();
+        BufferedImage bi = new BufferedImage(icon.getIconWidth(),icon.getIconHeight(),BufferedImage.TYPE_INT_RGB);
+        Const.setImage(new ImageIcon(bi));
+    }//GEN-LAST:event_lblObjectImageMousePressed
+
+    private void btnDeleteRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteRowActionPerformed
+        rows--;
+        createRowsAndCols(rows, cols);
+    }//GEN-LAST:event_btnDeleteRowActionPerformed
+
+    private void btnDeleteColActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteColActionPerformed
+        cols--;
+        createRowsAndCols(rows, cols);
+    }//GEN-LAST:event_btnDeleteColActionPerformed
 
     /**
      * @param args the command line arguments
@@ -380,6 +480,8 @@ public class StageDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCol;
     private javax.swing.JButton btnAddRow;
+    private javax.swing.JButton btnDeleteCol;
+    private javax.swing.JButton btnDeleteRow;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrev;
     private javax.swing.JComboBox cbxOption;
